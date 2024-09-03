@@ -35,7 +35,7 @@ async def on_ready():
 
     # Configurar o agendador para a geração automática do Excel
     scheduler = AsyncIOScheduler()
-    scheduler.add_job(gerar_excel_automatico, CronTrigger(day_of_week='mon-fri', hour=21, minute=34))
+    scheduler.add_job(gerar_excel_automatico, CronTrigger(day_of_week='mon-fri', hour=21, minute=42))
     scheduler.start()
 
 @bot.event
@@ -60,7 +60,7 @@ async def on_message(message):
             if content_upper.startswith("1171") or content_upper.startswith("PBA"):
                 # Armazena a mensagem em uma lista
                 mensagens.append({
-                    'Numero terminal': message.content.upper()
+                'Numero terminal': message.content.upper()
                 })
 
     # Verifique comandos ou responda ao usuário
@@ -79,7 +79,7 @@ async def gerar(ctx):
     df = pd.DataFrame(mensagens)
     
     # Salva o DataFrame em um arquivo Excel
-    df.to_excel('terminais.xlsx', index=False)
+    df.to_excel('terminais.xlsx', index=False, header=False)
     
     # Envia o arquivo Excel no canal
     await ctx.channel.send(file=discord.File('terminais.xlsx'))
