@@ -4,7 +4,6 @@ from discord.ext import commands
 from datetime import datetime, timezone
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
-from apikey  import *
 import os
 
 intents = discord.Intents.default()
