@@ -5,12 +5,16 @@ from datetime import datetime, timezone
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 import os
+from dotenv import load_dotenv
 
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 
-# Configure o bot com o token do Discord
+# Carrega as variáveis de ambiente do arquivo .env
+load_dotenv()
+
+# Configura o bot com o token do Discord
 TOKEN = os.getenv('id_token')
 bot = commands.Bot(command_prefix='!', intents=intents)
 
@@ -33,9 +37,9 @@ async def on_ready():
     # Define a data/hora atual como a última geração inicial, usando UTC
     ultima_geracao = datetime.now(timezone.utc)
 
-    # Configurar o agendador para a geração automática do Excel
+    # Configura o agendador para a geração automática do Excel
     scheduler = AsyncIOScheduler()
-    scheduler.add_job(gerar_excel_automatico, CronTrigger(day_of_week='mon-fri', hour=21, minute=42))
+    scheduler.add_job(gerar_excel_automatico, CronTrigger(day_of_week='mon-fri', hour=20, minute=33))
     scheduler.start()
 
 @bot.event
