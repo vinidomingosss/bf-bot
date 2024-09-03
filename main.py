@@ -5,13 +5,14 @@ from datetime import datetime, timezone
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from apikey  import *
+import os
 
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 
 # Configure o bot com o token do Discord
-TOKEN = id_token
+TOKEN = os.getenv('id_token')
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 # Lista para armazenar mensagens
