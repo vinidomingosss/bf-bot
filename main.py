@@ -4,13 +4,14 @@ from discord.ext import commands
 from datetime import datetime, timezone
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
+from apikey  import *
 
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 
 # Configure o bot com o token do Discord
-TOKEN = 'MTI3OTk1ODY3NjA0NzY2MzEyNA.GnFbDh.hui_POLA3iMrlBG-tuMLeWOnivKumtWEYn9M_k'
+TOKEN = id_token
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 # Lista para armazenar mensagens
@@ -34,7 +35,7 @@ async def on_ready():
 
     # Configurar o agendador para a geração automática do Excel
     scheduler = AsyncIOScheduler()
-    scheduler.add_job(gerar_excel_automatico, CronTrigger(day_of_week='mon-fri', hour=21, minute=14))
+    scheduler.add_job(gerar_excel_automatico, CronTrigger(day_of_week='mon-fri', hour=21, minute=34))
     scheduler.start()
 
 @bot.event
