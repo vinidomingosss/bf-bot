@@ -1,7 +1,7 @@
 import discord
 import pandas as pd
 from discord.ext import commands
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 import os
@@ -39,7 +39,9 @@ async def on_ready():
 
     # Configura o agendador para a geração automática do Excel
     scheduler = AsyncIOScheduler()
-    scheduler.add_job(gerar_excel_automatico, CronTrigger(day_of_week='mon-fri', hour=21, minute=21))
+    trigger_time = datetime.now(timezone.utc) + timedelta(minutes=2)
+    scheduler.add_job(gerar_excel_automatico, CronTrigger(start_date=trigger_time))
+    #scheduler.add_job(gerar_excel_automatico, CronTrigger(day_of_week='mon-fri', hour=21, minute=21))
     print("Scheduler configurado!")
     scheduler.start()
     print("Scheduler iniciado!")
