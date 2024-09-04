@@ -33,16 +33,14 @@ SUPORTE_ROLE_ID = 1280304161929298010
 @bot.event
 async def on_ready():
     global ultima_geracao
-    print(f'Bot conectado como {bot.user}')
+    print(f'Bot conectado: {bot.user}')
     # Define a data/hora atual como a última geração inicial, usando UTC
     ultima_geracao = datetime.now(timezone.utc)
 
     # Configura o agendador para a geração automática do Excel
     scheduler = AsyncIOScheduler()
-    scheduler.add_job(gerar_excel_automatico, CronTrigger(day_of_week='mon-fri', hour=20, minute=30))
-    print("Scheduler configurado!")
+    scheduler.add_job(gerar_excel_automatico, CronTrigger(day_of_week='mon-fri', hour=1, minute=40))
     scheduler.start()
-    print("Scheduler iniciado!")
 
 @bot.event
 async def on_message(message):
@@ -114,12 +112,17 @@ async def ola(ctx):
 
 async def gerar_excel_automatico():
 
-    print("Gerando Excel automaticamente...")
     # Obtém o canal específico
     channel = bot.get_channel(ID_CANAL_ESPECIFICO)
     if channel:
 
-        print(f"Canal encontrado: {channel.name}")
+	# Marca o cargo "suporte"
+        suporte_role = discord.utils.get(channel.guild.roles, id=SUPORTE_ROLE_ID)
+        # Verifica se há novas mensagens para gerar o Excel
+        if not mensagens:
+            await channel.send(f"🚫 Nenhum terminal para enviar hoje pessoal! {suporte_role.mention}")
+            return
+
         # Cria um contexto de comando falso
         class FakeContext:
             def __init__(self, channel):
