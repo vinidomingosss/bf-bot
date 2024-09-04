@@ -12,7 +12,7 @@ intents.message_content = True
 intents.members = True
 
 # Carrega as variáveis de ambiente do arquivo .env
-load_dotenv
+load_dotenv()
 
 # Configura o bot com o token do Discord
 TOKEN = os.getenv('id_token')
