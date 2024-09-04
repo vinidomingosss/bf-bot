@@ -39,8 +39,10 @@ async def on_ready():
 
     # Configura o agendador para a geração automática do Excel
     scheduler = AsyncIOScheduler()
-    scheduler.add_job(gerar_excel_automatico, CronTrigger(day_of_week='mon-fri', hour=21, minute=10))
+    scheduler.add_job(gerar_excel_automatico, CronTrigger(day_of_week='mon-fri', hour=21, minute=17))
+    print("Scheduler configurado!")
     scheduler.start()
+    print("Scheduler iniciado!")
 
 @bot.event
 async def on_message(message):
@@ -111,9 +113,13 @@ async def ola(ctx):
     await ctx.send('Olá, Mensagem para testar o BOT!')
 
 async def gerar_excel_automatico():
+
+    print("Gerando Excel automaticamente...")
     # Obtém o canal específico
     channel = bot.get_channel(ID_CANAL_ESPECIFICO)
     if channel:
+
+        print(f"Canal encontrado: {channel.name}")
         # Cria um contexto de comando falso
         class FakeContext:
             def __init__(self, channel):
