@@ -39,7 +39,7 @@ async def on_ready():
 
     # Configura o agendador para a geração automática do Excel
     scheduler = AsyncIOScheduler()
-    scheduler.add_job(gerar_excel_automatico, CronTrigger(day_of_week='mon-fri', hour=1, minute=40))
+    scheduler.add_job(gerar_excel_automatico, CronTrigger(day_of_week='mon-fri', hour=00, minute=14))
     scheduler.start()
 
 @bot.event
