@@ -1,12 +1,11 @@
 import discord
 import pandas as pd
 from discord.ext import commands
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 import os
 from dotenv import load_dotenv
-from commands import *
 
 intents = discord.Intents.default()
 intents.message_content = True
