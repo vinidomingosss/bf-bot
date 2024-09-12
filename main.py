@@ -81,7 +81,7 @@ async def gerar(ctx):
 
     # Verifica se o comando está sendo executado no canal específico
     if ctx.channel.id != ID_CANAL_ESPECIFICO:
-        await ctx.channel.send("Este comando só pode ser executado no canal do suporte!")
+        await ctx.channel.send("Este comando só pode ser executado no canal de Vinculo de terminais Pagseguro!")
         return
 
     # Cria um DataFrame a partir das mensagens filtradas
