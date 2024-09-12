@@ -6,6 +6,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 import os
 from dotenv import load_dotenv
+from commands import *
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -25,10 +26,10 @@ mensagens = []
 ultima_geracao = None
 
 # ID do canal específico para o comando de gerar Excel
-ID_CANAL_ESPECIFICO = 1279957234930942007  
+ID_CANAL_ESPECIFICO = 1279540617776726079  
 
 # ID do cargo de suporte 
-SUPORTE_ROLE_ID = 1280304161929298010
+SUPORTE_ROLE_ID = 1278871336231370846
 
 @bot.event
 async def on_ready():
@@ -39,7 +40,7 @@ async def on_ready():
 
     # Configura o agendador para a geração automática do Excel
     scheduler = AsyncIOScheduler()
-    scheduler.add_job(gerar_excel_automatico, CronTrigger(day_of_week='mon-fri', hour=00, minute=14))
+    scheduler.add_job(gerar_excel_terminais_automatico, CronTrigger(day_of_week='mon-fri', hour=20, minute=30))
     scheduler.start()
 
 @bot.event
@@ -62,15 +63,20 @@ async def on_message(message):
         if message_time > ultima_geracao_naive:
             # Verifica se a mensagem começa com "1171" ou "PBA" (em maiúsculas)
             if content_upper.startswith("1171") or content_upper.startswith("PBA"):
-                # Armazena a mensagem em uma lista
-                mensagens.append({
-                'Numero terminal': message.content.upper()
-                })
+            # Separa a mensagem em múltiplas linhas (por quebras de linha)
+                linhas = message.content.splitlines()
+                # Armazena cada linha como uma entrada separada
+                for linha in linhas:
+                    linha_upper = linha.strip().upper()
+                    if linha_upper.startswith("1171") or linha_upper.startswith("PBA"):
+                        mensagens.append({
+                            'Numero terminal': linha_upper
+                        })
 
     # Verifique comandos ou responda ao usuário
     await bot.process_commands(message)
 
-@bot.command(name='gerar')
+@bot.command(name='terminais')
 async def gerar(ctx):
     global ultima_geracao
 
@@ -107,10 +113,10 @@ async def on_command_error(ctx, error):
         await ctx.send(f"Comandos disponíveis:\n{commands_list}")        
 
 @bot.command()
-async def ola(ctx):
-    await ctx.send('Olá, Mensagem para testar o BOT!')
+async def teste(ctx):
+    await ctx.send('BOT funcionando perfeitamente!')
 
-async def gerar_excel_automatico():
+async def gerar_excel_terminais_automatico():
 
     # Obtém o canal específico
     channel = bot.get_channel(ID_CANAL_ESPECIFICO)
