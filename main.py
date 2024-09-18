@@ -60,14 +60,14 @@ async def on_message(message):
 
         # Verifica se a mensagem foi enviada após a última geração do Excel
         if message_time > ultima_geracao_naive:
-            # Verifica se a mensagem começa com "1171" ou "PBA" (em maiúsculas)
-            if content_upper.startswith("1171") or content_upper.startswith("PBA") or content_upper.startswith("1170"):
+            # Verifica se a mensagem começa com "1" ou "PBA" (em maiúsculas)
+            if content_upper.startswith("1") or content_upper.startswith("PBA"):
             # Separa a mensagem em múltiplas linhas (por quebras de linha)
                 linhas = message.content.splitlines()
                 # Armazena cada linha como uma entrada separada
                 for linha in linhas:
                     linha_upper = linha.strip().upper()
-                    if linha_upper.startswith("1171") or linha_upper.startswith("PBA") or linha_upper.startswith("1170"):
+                    if linha_upper.startswith("1") or linha_upper.startswith("PBA"):
                         mensagens.append({
                             'Numero terminal': linha_upper
                         })
