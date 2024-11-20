@@ -61,13 +61,13 @@ async def on_message(message):
         # Verifica se a mensagem foi enviada após a última geração do Excel
         if message_time > ultima_geracao_naive:
             # Verifica se a mensagem começa com "1" ou "PBA" (em maiúsculas)
-            if content_upper.startswith("1") or content_upper.startswith("PBA"):
+            if content_upper.startswith("1") or content_upper.startswith("PB"):
             # Separa a mensagem em múltiplas linhas (por quebras de linha)
                 linhas = message.content.splitlines()
                 # Armazena cada linha como uma entrada separada
                 for linha in linhas:
                     linha_upper = linha.strip().upper()
-                    if linha_upper.startswith("1") or linha_upper.startswith("PBA"):
+                    if linha_upper.startswith("1") or linha_upper.startswith("PB"):
                         mensagens.append({
                             'Numero terminal': linha_upper
                         })
@@ -125,7 +125,7 @@ async def gerar_excel_terminais_automatico():
         suporte_role = discord.utils.get(channel.guild.roles, id=SUPORTE_ROLE_ID)
         # Verifica se há novas mensagens para gerar o Excel
         if not mensagens:
-            await channel.send(f"🚫 Nenhum terminal para enviar hoje pessoal! {suporte_role.mention}")
+            await channel.send(f"🚫 Nenhum terminal para enviar agora pessoal! {suporte_role.mention}")
             return
 
         # Cria um contexto de comando falso
